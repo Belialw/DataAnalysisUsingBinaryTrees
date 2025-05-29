@@ -1,6 +1,7 @@
 public class Registro {
     private CompositeKey key;
     private String cpf;
+    private int ano;
     private int idMunicipio;
     private String idMunicipioNome;
     private String dataNascimento;
@@ -26,6 +27,7 @@ public class Registro {
                     boolean beneficiarioDeficiente, int idIes, String idIesNome, String idIesTipoInstituicao) {
 
         this.cpf = cpf;
+        this.ano = ano;
         this.key = new CompositeKey(cpf, ano);
         this.idMunicipio = idMunicipio;
         this.idMunicipioNome = idMunicipioNome;
@@ -44,6 +46,31 @@ public class Registro {
         this.idIes = idIes;
         this.idIesNome = idIesNome;
         this.idIesTipoInstituicao = idIesTipoInstituicao;
+    }
+
+    @Override
+    public String toString() {
+        return "[" +
+            cpf + ", " +
+            ano + ", " +
+            idMunicipio + ", " +
+            idMunicipioNome + ", " +
+            dataNascimento + ", " +
+            campus + ", " +
+            turnoCurso + ", " +
+            sexo + ", " +
+            nomeMunicipioIes + ", " +
+            modalidadeEnsino + ", " +
+            curso + ", " +
+            racaCor + ", " +
+            tipoBolsa + ", " +
+            siglaUf + ", " +
+            siglaUfNome + ", " +
+            (beneficiarioDeficiente ? "1" : "0") + ", " +
+            idIes + ", " +
+            idIesNome + ", " +
+            idIesTipoInstituicao +
+            "]";
     }
 
     public CompositeKey getKey() {
