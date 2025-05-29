@@ -1,22 +1,30 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Node {
-    private Registro data;
+    private List<Registro> registros;
     private Node left;
     private Node right;
     private int height;
 
     public Node(Registro data) {
-        this.data = data;
+        this.registros = new ArrayList<>();
+        this.registros.add(data);
         this.left = null;
         this.right = null;
         this.height = 1;
     }
 
-    public Registro getData() {
-        return data;
+    public List<Registro> getRegistros() {
+        return registros;
     }
 
-    public void setData(Registro data) {
-        this.data = data;
+    public void setRegistros(List<Registro> registros) {
+        this.registros = registros;
+    }
+
+    public void addRegistro(Registro registro) {
+        this.registros.add(registro);
     }
 
     public Node getLeft() {
