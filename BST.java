@@ -34,4 +34,21 @@ public class BST {
 
         return current;
     }
+
+    public void printInOrder() {
+        printInOrder(root);
+    }
+
+    private void printInOrder(Node node) {
+        if (node != null) {
+            printInOrder(node.getLeft());
+            
+            // Imprime todos os registros daquele nó (já que pode ter duplicatas)
+            for (Registro r : node.getRegistros()) {
+                System.out.println(r);
+            }
+
+            printInOrder(node.getRight());
+        }
+    }
 }
