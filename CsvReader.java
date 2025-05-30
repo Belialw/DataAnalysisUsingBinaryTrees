@@ -27,6 +27,34 @@ public class CsvReader {
         }
     }
 
+    public static List<CompositeKey> loadAllKeys(String filePath) {
+        List<CompositeKey> keys = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            boolean isFirstLine = true;
+
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue; // Pula o cabeçalho
+                }
+
+                String[] fields = parseCsvLine(line);
+                String cpf = parseStringSafe(fields[0]);
+                int ano = parseIntSafe(fields[1]);
+
+                keys.add(new CompositeKey(cpf, ano));
+            }
+
+        } catch (IOException e) {
+            System.err.println("Erro ao ler o arquivo para extrair chaves: " + e.getMessage());
+        }
+
+        return keys;
+    }
+
+
     private static Registro criarRegistro(String[] campos) {
         try {
             String cpf = parseStringSafe(campos[0]);
