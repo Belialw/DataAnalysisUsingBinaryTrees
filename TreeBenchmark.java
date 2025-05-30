@@ -2,10 +2,8 @@ import java.util.*;
 
 public class TreeBenchmark {
 
-    public static void compareTrees() {
-        String filePath = "bq-results-20250529-041250-1748492082608.csv";
+    public static void compareTrees(String filePath) {
 
-        // Chaves específicas para demonstrar que a busca funciona corretamente
         CompositeKey[] demoKeys = {
             new CompositeKey("***015295**", 2006),
             new CompositeKey("089.***.***-40", 2020),
@@ -30,18 +28,21 @@ public class TreeBenchmark {
             new CompositeKey("***786803**", 2010)
         };
 
-        // Gerar todas as chaves compostas uma única vez
+        System.out.println("\nIniciando leitura do arquivo para gerar todas as chaves...");
         List<CompositeKey> allKeys = CsvReader.loadAllKeys(filePath);
+        System.out.println("Chaves carregadas com sucesso. Total de chaves: " + allKeys.size() + "\n");
 
         // === BST ===
+        System.out.println("=== BST ===\n");
+        System.out.println("Iniciando leitura e inserção dos dados na árvore (pode demorar um pouco)...\n");
         BST treeBST = new BST();
-
-        long startBST = System.nanoTime();
+        long start = System.nanoTime();
         CsvReader.loadCsvIntoTree(filePath, treeBST);
-        long endBST = System.nanoTime();
-        long insertTimeBST = endBST - startBST;
+        long end = System.nanoTime();
+        long insertTimeBST = end - start;
+        System.out.println("Inserção concluída. Tempo: " + insertTimeBST + " ns\n");
 
-        // Busca de demonstração
+        System.out.println("Iniciando busca de demonstração (21 chaves)...\n");
         for (CompositeKey key : demoKeys) {
             Node result = treeBST.searchByKey(key);
             if (result != null) {
@@ -50,37 +51,43 @@ public class TreeBenchmark {
                 }
             }
         }
+        System.out.println("\nDemonstração concluída.\n");
 
-        // Busca de performance
-        startBST = System.nanoTime();
+        System.out.println("Iniciando busca de performance por todas as chaves...\n");
+        start = System.nanoTime();
         for (CompositeKey key : allKeys) {
             treeBST.searchByKey(key);
         }
-        endBST = System.nanoTime();
-        long searchTimeBST = endBST - startBST;
+        end = System.nanoTime();
+        long searchTimeBST = end - start;
+        System.out.println("Busca concluída. Tempo: " + searchTimeBST + " ns\n");
 
-        startBST = System.nanoTime();
+        System.out.println("Iniciando remoção por intervalo de anos (2010 - 2018)...\n");
+        start = System.nanoTime();
         treeBST.removeByYearRange(2010, 2018);
-        endBST = System.nanoTime();
-        long removeRangeTimeBST = endBST - startBST;
+        end = System.nanoTime();
+        long removeRangeTimeBST = end - start;
+        System.out.println("Remoção concluída. Tempo: " + removeRangeTimeBST + " ns\n");
 
-        System.out.println("=== BST ===");
+        System.out.println("=== Resultados BST ===");
         System.out.println("Tempo de inserção: " + insertTimeBST + " ns");
         System.out.println("Tempo de busca: " + searchTimeBST + " ns");
-        System.out.println("Tempo de remoção (2010 - 2018): " + removeRangeTimeBST + " ns");
+        System.out.println("Tempo de remoção (2010 - 2018): " + removeRangeTimeBST + " ns\n");
 
         treeBST = null;
         System.gc();
 
         // === AVL ===
+        System.out.println("=== AVL ===\n");
+        System.out.println("Iniciando leitura e inserção dos dados na árvore (pode demorar um pouco)...\n");
         AVL treeAVL = new AVL();
-
-        long startAVL = System.nanoTime();
+        start = System.nanoTime();
         CsvReader.loadCsvIntoTree(filePath, treeAVL);
-        long endAVL = System.nanoTime();
-        long insertTimeAVL = endAVL - startAVL;
+        end = System.nanoTime();
+        long insertTimeAVL = end - start;
+        System.out.println("Inserção concluída. Tempo: " + insertTimeAVL + " ns\n");
 
-        // Busca de demonstração
+        System.out.println("Iniciando busca de demonstração (21 chaves)...\n");
         for (CompositeKey key : demoKeys) {
             Node result = treeAVL.searchByKey(key);
             if (result != null) {
@@ -89,23 +96,30 @@ public class TreeBenchmark {
                 }
             }
         }
+        System.out.println("\nDemonstração concluída.\n");
 
-        // Busca de performance
-        startAVL = System.nanoTime();
+        System.out.println("Iniciando busca de performance por todas as chaves...\n");
+        start = System.nanoTime();
         for (CompositeKey key : allKeys) {
             treeAVL.searchByKey(key);
         }
-        endAVL = System.nanoTime();
-        long searchTimeAVL = endAVL - startAVL;
+        end = System.nanoTime();
+        long searchTimeAVL = end - start;
+        System.out.println("Busca concluída. Tempo: " + searchTimeAVL + " ns\n");
 
-        startAVL = System.nanoTime();
+        System.out.println("Iniciando remoção por intervalo de anos (2010 - 2018)...\n");
+        start = System.nanoTime();
         treeAVL.removeByYearRange(2010, 2018);
-        endAVL = System.nanoTime();
-        long removeRangeTimeAVL = endAVL - startAVL;
+        end = System.nanoTime();
+        long removeRangeTimeAVL = end - start;
+        System.out.println("Remoção concluída. Tempo: " + removeRangeTimeAVL + " ns\n");
 
-        System.out.println("\n=== AVL ===");
+        System.out.println("=== Resultados AVL ===");
         System.out.println("Tempo de inserção: " + insertTimeAVL + " ns");
         System.out.println("Tempo de busca: " + searchTimeAVL + " ns");
-        System.out.println("Tempo de remoção (2010 - 2018): " + removeRangeTimeAVL + " ns");
+        System.out.println("Tempo de remoção (2010 - 2018): " + removeRangeTimeAVL + " ns\n");
+
+        treeAVL = null;
+        System.gc();
     }
 }
