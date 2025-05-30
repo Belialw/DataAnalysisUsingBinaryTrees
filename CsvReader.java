@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CsvReader {
-    
-    public void loadCsvIntoTree(String filePath, BST tree) {
+
+    public static void loadCsvIntoTree(String filePath, Tree tree) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             boolean isFirstLine = true;
@@ -17,9 +17,7 @@ public class CsvReader {
                     continue; // Pula o cabeçalho
                 }
 
-                // Divide os campos por vírgula
                 String[] fields = parseCsvLine(line);
-
                 Registro registro = criarRegistro(fields);
                 tree.insert(registro);
             }
@@ -29,7 +27,7 @@ public class CsvReader {
         }
     }
 
-    private Registro criarRegistro(String[] campos) {
+    private static Registro criarRegistro(String[] campos) {
         try {
             String cpf = parseStringSafe(campos[0]);
             int ano = parseIntSafe(campos[1]);
@@ -67,21 +65,21 @@ public class CsvReader {
         }
     }
 
-    private int parseIntSafe(String s) {
+    private static int parseIntSafe(String s) {
         if (s == null || s.trim().isEmpty() || s.equalsIgnoreCase("Não informado")) {
             return 0;
         }
         return Integer.parseInt(s.trim());
     }
 
-    private String parseStringSafe(String s) {
+    private static String parseStringSafe(String s) {
         if (s == null || s.trim().isEmpty()) {
             return "";
         }
         return s.trim();
     }
 
-    private String[] parseCsvLine(String line) {
+    private static String[] parseCsvLine(String line) {
         List<String> fields = new ArrayList<>();
         StringBuilder current = new StringBuilder();
         boolean inQuotes = false;
