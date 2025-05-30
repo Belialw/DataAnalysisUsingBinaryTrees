@@ -90,6 +90,14 @@ public class Registro {
         this.key.setKeyCpf(cpf);
     }
 
+    public int getAno() {
+        return this.ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
     public int getIdMunicipio() {
         return idMunicipio;
     }

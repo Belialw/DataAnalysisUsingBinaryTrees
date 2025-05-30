@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BST {
     private Node root;
@@ -172,6 +174,50 @@ public class BST {
             case 17: return r.getIdIesNome().equalsIgnoreCase(value);
             case 18: return r.getIdIesTipoInstituicao().equalsIgnoreCase(value);
             default: return false;
+        }
+    }
+
+    public Map<String, Integer> countOccurrencesByField(int fieldIndex) {
+        Map<String, Integer> occurrences = new HashMap<>();
+        countRecursive(this.root, fieldIndex, occurrences);
+        return occurrences;
+    }
+
+    private void countRecursive(Node node, int fieldIndex, Map<String, Integer> occurrences) {
+        if (node == null) return;
+
+        countRecursive(node.getLeft(), fieldIndex, occurrences);
+
+        for (Registro r : node.getRegistros()) {
+            String value = getFieldValue(r, fieldIndex);
+            occurrences.put(value, occurrences.getOrDefault(value, 0) + 1);
+        }
+
+        countRecursive(node.getRight(), fieldIndex, occurrences);
+    }
+
+    private String getFieldValue(Registro r, int fieldIndex) {
+        switch (fieldIndex) {
+            case 0: return r.getcpf();
+            case 1: return Integer.toString(r.getAno());
+            case 2: return Integer.toString(r.getIdMunicipio());
+            case 3: return r.getIdMunicipioNome();
+            case 4: return r.getDataNascimento();
+            case 5: return r.getCampus();
+            case 6: return r.getTurnoCurso();
+            case 7: return r.getSexo();
+            case 8: return r.getNomeMunicipioIes();
+            case 9: return r.getModalidadeEnsino();
+            case 10: return r.getCurso();
+            case 11: return r.getRacaCor();
+            case 12: return r.getTipoBolsa();
+            case 13: return r.getSiglaUf();
+            case 14: return r.getSiglaUfNome();
+            case 15: return Boolean.toString(r.isBeneficiarioDeficiente());
+            case 16: return Integer.toString(r.getIdIes());
+            case 17: return r.getIdIesNome();
+            case 18: return r.getIdIesTipoInstituicao();
+            default: return "";
         }
     }
 }
