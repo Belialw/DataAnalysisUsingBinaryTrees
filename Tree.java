@@ -168,4 +168,5 @@ public abstract class Tree {
     // Assinaturas dos métodos que devem ser implementados pelas subclasses
     public abstract void insert(Registro registro);
     public abstract void removeByCpf(String cpf);
+    public abstract void removeByYearRange(int minYear, int maxYear);
 }

@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class BST extends Tree {
 
     @Override
@@ -65,4 +68,32 @@ public class BST extends Tree {
         }
         return node;
     }
+
+    
+    @Override
+    public void removeByYearRange(int minYear, int maxYear) {
+        List<CompositeKey> keysToRemove = new ArrayList<>();
+        collectKeysInRange(root, minYear, maxYear, keysToRemove);
+
+        for (CompositeKey key : keysToRemove) {
+            root = remove(root, key);
+        }
+    }
+
+    private void collectKeysInRange(Node node, int minYear, int maxYear, List<CompositeKey> keysToRemove) {
+        if (node == null) return;
+
+        collectKeysInRange(node.getLeft(), minYear, maxYear, keysToRemove);
+
+        // Verifica os registros do nó atual
+        for (Registro r : node.getRegistros()) {
+            if (r.getAno() >= minYear && r.getAno() <= maxYear) {
+                keysToRemove.add(r.getKey()); // CompositeKey
+                break; // Como todos os registros compartilham a mesma chave, basta um match
+            }
+        }
+
+        collectKeysInRange(node.getRight(), minYear, maxYear, keysToRemove);
+    }
+
 }

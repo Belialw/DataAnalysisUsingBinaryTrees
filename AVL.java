@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class AVL extends Tree {
 
     @Override
@@ -124,4 +127,30 @@ public class AVL extends Tree {
 
         return y;
     }
+
+    @Override
+    public void removeByYearRange(int minYear, int maxYear) {
+        List<CompositeKey> keysToRemove = new ArrayList<>();
+        collectKeysInRange(root, minYear, maxYear, keysToRemove);
+
+        for (CompositeKey key : keysToRemove) {
+            root = removeAVL(root, key);
+        }
+    }
+
+    private void collectKeysInRange(Node node, int minYear, int maxYear, List<CompositeKey> keysToRemove) {
+        if (node == null) return;
+
+        collectKeysInRange(node.getLeft(), minYear, maxYear, keysToRemove);
+
+        for (Registro r : node.getRegistros()) {
+            if (r.getAno() >= minYear && r.getAno() <= maxYear) {
+                keysToRemove.add(r.getKey());
+                break;
+            }
+        }
+
+        collectKeysInRange(node.getRight(), minYear, maxYear, keysToRemove);
+    }
+
 }
