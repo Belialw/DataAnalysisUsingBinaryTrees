@@ -98,5 +98,24 @@ public class BST {
         return node;
     }
     
+    public Node searchByKey(CompositeKey key) {
+        return searchByKey(root, key);
+    }
+
+    private Node searchByKey(Node current, CompositeKey key) {
+        if (current == null) {
+            return null; // Não encontrado
+        }
+
+        int comparison = key.compareTo(current.getRegistros().get(0).getKey());
+
+        if (comparison < 0) {
+            return searchByKey(current.getLeft(), key);
+        } else if (comparison > 0) {
+            return searchByKey(current.getRight(), key);
+        } else {
+            return current; // Encontrou o nó
+        }
+    }
 
 }
