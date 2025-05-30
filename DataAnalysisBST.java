@@ -19,11 +19,40 @@ public class DataAnalysisBST {
 
         List<Map.Entry<String, Integer>> entries = new ArrayList<>(occurrences.entrySet());
 
+        // Ordena pela contagem de forma decrescente
         entries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
         for (Map.Entry<String, Integer> entry : entries) {
             double percentage = (entry.getValue() * 100.0) / totalRecords;
-            System.out.printf("%s: %d (%.2f%%)\n", entry.getKey(), entry.getValue(), percentage);
+            System.out.printf("%s: %d (%.4f%%)%n", entry.getKey(), entry.getValue(), percentage);
+        }
+    }
+
+    public static void printFieldOccurrencesPerYear(BST tree, int fieldIndex) {
+        Map<Integer, Map<String, Integer>> countsPerYear = tree.countByFieldPerYear(fieldIndex);
+
+        for (Map.Entry<Integer, Map<String, Integer>> yearEntry : countsPerYear.entrySet()) {
+            int year = yearEntry.getKey();
+            Map<String, Integer> fieldCounts = yearEntry.getValue();
+
+            // Calcular total do ano
+            int total = fieldCounts.values().stream().mapToInt(Integer::intValue).sum();
+
+            // Ordenar os dados do ano por valor decrescente
+            List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(fieldCounts.entrySet());
+            sortedEntries.sort((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()));
+
+            System.out.println("Ano " + year + ":");
+
+            for (Map.Entry<String, Integer> entry : sortedEntries) {
+                String value = entry.getKey();
+                int count = entry.getValue();
+                double percentage = (count * 100.0) / total;
+
+                System.out.printf("  %s: %d (%.4f%%)%n", value, count, percentage);
+            }
+
+            System.out.println(); // linha em branco para separar anos
         }
     }
 }
