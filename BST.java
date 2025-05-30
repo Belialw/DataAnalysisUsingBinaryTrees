@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class BST {
     private Node root;
@@ -178,7 +179,7 @@ public class BST {
     }
 
     public Map<String, Integer> countOccurrencesByField(int fieldIndex) {
-        Map<String, Integer> occurrences = new HashMap<>();
+        Map<String, Integer> occurrences = new TreeMap<>();
         countRecursive(this.root, fieldIndex, occurrences);
         return occurrences;
     }
@@ -219,5 +220,29 @@ public class BST {
             case 18: return r.getIdIesTipoInstituicao();
             default: return "";
         }
+    }
+
+    public Map<Integer, Map<String, Integer>> countByFieldPerYear(int fieldIndex) {
+        Map<Integer, Map<String, Integer>> yearToFieldCount = new TreeMap<>();
+        countByFieldPerYearRecursive(root, fieldIndex, yearToFieldCount);
+        return yearToFieldCount;
+    }
+
+    private void countByFieldPerYearRecursive(Node node, int fieldIndex,
+            Map<Integer, Map<String, Integer>> yearToFieldCount) {
+        if (node == null) return;
+
+        countByFieldPerYearRecursive(node.getLeft(), fieldIndex, yearToFieldCount);
+
+        for (Registro r : node.getRegistros()) {
+            int year = r.getAno();
+            String fieldValue = getFieldValue(r, fieldIndex);
+
+            yearToFieldCount.putIfAbsent(year, new HashMap<>());
+            Map<String, Integer> fieldCounts = yearToFieldCount.get(year);
+            fieldCounts.put(fieldValue, fieldCounts.getOrDefault(fieldValue, 0) + 1);
+        }
+
+        countByFieldPerYearRecursive(node.getRight(), fieldIndex, yearToFieldCount);
     }
 }
